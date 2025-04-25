@@ -19,10 +19,13 @@ public class ReceitaService {
     @Autowired
     private ReceitaRepository repository;
 
+
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {
 
         List<ReceitaEntity> receitas = repository.findAll();
         return ResponseEntity.ok(mapper.toDto(receitas));
     }
+
+
 
 }
