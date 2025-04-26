@@ -9,6 +9,8 @@ import java.time.LocalDate;
 
 public record ReceitaDto(
 
+        Long id,
+
         @NotNull
         @Positive
         BigDecimal valorReceita,

@@ -41,4 +41,8 @@ public class ReceitaService {
         ReceitaEntity receita = mapper.toEntity(receitaDto);
         return mapper.toDto(repository.save(receita));
     }
+
+    public void deletarReceita(Long id){
+        repository.deleteById(id);
+    }
 }

@@ -32,5 +32,9 @@ public class ReceitaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarReceita(receitaDto));
     }
 
+    @DeleteMapping("/{id}")
+    public void deletarReceita(@PathVariable  Long id){
+        service.deletarReceita(id);
+    }
 
 }
