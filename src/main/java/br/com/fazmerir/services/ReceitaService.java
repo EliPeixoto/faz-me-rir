@@ -7,6 +7,7 @@ import br.com.fazmerir.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 public class ReceitaService {
 
     @Autowired
-    private  ReceitaMapper mapper;
+    private ReceitaMapper mapper;
 
     @Autowired
     private ReceitaRepository repository;
@@ -27,5 +28,17 @@ public class ReceitaService {
     }
 
 
+    public ReceitaDto buscaReceitaPorId(Long id){
 
+        ReceitaEntity receita = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Receita não encontrada com id: " + id));
+
+        return mapper.toDto(receita);
+    }
+
+    public ReceitaDto cadastrarReceita(@RequestBody ReceitaDto receitaDto) {
+
+        ReceitaEntity receita = mapper.toEntity(receitaDto);
+        return mapper.toDto(repository.save(receita));
+    }
 }
