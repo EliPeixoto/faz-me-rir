@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -17,26 +19,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        // Libera os endpoints públicos
+                        // Libera endpoints públicos
                         .requestMatchers(
-                                "localhost:4200",
+                                "http://localhost:4200",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/public/**",
                                 "/h2-console/**"
                         ).permitAll()
-
-                        // Protege o resto: precisa de login
+                        // Protege o resto
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .oauth2ResourceServer(oauth2 -> oauth2
+                        .jwt(Customizer.withDefaults())
+                );
 
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
