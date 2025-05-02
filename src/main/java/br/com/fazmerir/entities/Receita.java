@@ -1,5 +1,6 @@
 package br.com.fazmerir.entities;
 
+import br.com.fazmerir.enums.StatusReceitaEnum;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 @Table(name = "receita")
-public class ReceitaEntity {
+public class Receita {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +35,8 @@ public class ReceitaEntity {
     private String descricaoRecebimento;
 
     private String categoriaReceita;
+
+    @Enumerated
+    private StatusReceitaEnum statusReceita;
 
 }

@@ -33,6 +33,18 @@ public class ReceitaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarReceita(receitaDto));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ReceitaDto> atualizarReceita(@PathVariable Long id, @RequestBody @Valid ReceitaDto receitaDto) {
+        ReceitaDto receitaAtualizada = service.atualizarReceita(id, receitaDto);
+        return ResponseEntity.ok(receitaAtualizada);
+    }
+
+    @PutMapping("altera-status/{id}")
+    public ResponseEntity<ReceitaDto> alteraStatusReceita(@PathVariable Long id){
+        ReceitaDto statusAtualizado = service.alteraStatusReceita(id);
+        return ResponseEntity.ok(statusAtualizado);
+    }
+
     @DeleteMapping("/{id}")
     public void deletarReceita(@PathVariable  Long id){
         service.deletarReceita(id);

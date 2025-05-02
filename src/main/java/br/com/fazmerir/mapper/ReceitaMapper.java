@@ -1,7 +1,7 @@
 package br.com.fazmerir.mapper;
 
 import br.com.fazmerir.dto.ReceitaDto;
-import br.com.fazmerir.entities.ReceitaEntity;
+import br.com.fazmerir.entities.Receita;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -14,16 +14,18 @@ public interface ReceitaMapper {
     @Mapping(target = "dataRecebimento", source = "dataRecebimento")
     @Mapping(target = "descricaoRecebimento", source = "descricaoRecebimento")
     @Mapping(target = "categoriaReceita", source = "categoriaReceita")
-    ReceitaEntity toEntity(ReceitaDto dto);
+    @Mapping(target = "statusReceita", source = "statusReceita")
+    Receita toEntity(ReceitaDto dto);
 
     @Mapping(target = "valorReceita", source = "valorReceita")
     @Mapping(target = "dataRecebimento", source = "dataRecebimento")
     @Mapping(target = "descricaoRecebimento", source = "descricaoRecebimento")
     @Mapping(target = "categoriaReceita", source = "categoriaReceita")
-    ReceitaDto toDto(ReceitaEntity entity);
+    @Mapping(target = "statusReceita", source = "statusReceita")
+    ReceitaDto toDto(Receita entity);
 
-    List<ReceitaDto> toDto(List<ReceitaEntity> entities);
+    List<ReceitaDto> toDto(List<Receita> entities);
 
-    List<ReceitaEntity> toEntity(List<ReceitaDto> dtos);
+    List<Receita> toEntity(List<ReceitaDto> dtos);
 
 }
