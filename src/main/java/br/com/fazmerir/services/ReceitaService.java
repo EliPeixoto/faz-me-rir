@@ -37,7 +37,7 @@ public class ReceitaService {
         return mapper.toDto(receita);
     }
 
-    public ReceitaDto cadastrarReceita(@RequestBody ReceitaDto receitaDto) {
+    public ReceitaDto cadastrarReceita(ReceitaDto receitaDto) {
 
         Receita receita = mapper.toEntity(receitaDto);
         return mapper.toDto(repository.save(receita));
