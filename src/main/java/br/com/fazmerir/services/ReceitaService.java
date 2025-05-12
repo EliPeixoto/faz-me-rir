@@ -5,11 +5,12 @@ import br.com.fazmerir.entities.Receita;
 import br.com.fazmerir.enums.StatusReceitaEnum;
 import br.com.fazmerir.mapper.ReceitaMapper;
 import br.com.fazmerir.repository.ReceitaRepository;
+import br.com.fazmerir.repository.SaldoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -19,19 +20,24 @@ public class ReceitaService {
     private ReceitaMapper mapper;
 
     @Autowired
-    private ReceitaRepository repository;
+    private ReceitaRepository receitaRepository;
+
+    @Autowired
+    private SaldoRepository saldoRepository;
+    @Autowired
+    private SaldoService saldoService;
 
 
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {
 
-        List<Receita> receitas = repository.findAll();
+        List<Receita> receitas = receitaRepository.findAll();
         return ResponseEntity.ok(mapper.toDto(receitas));
     }
 
 
     public ReceitaDto buscaReceitaPorId(Long id){
 
-        Receita receita = repository.findById(id)
+        Receita receita = receitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Receita não encontrada com id: " + id));
 
         return mapper.toDto(receita);
@@ -40,24 +46,26 @@ public class ReceitaService {
     public ReceitaDto cadastrarReceita(ReceitaDto receitaDto) {
 
         Receita receita = mapper.toEntity(receitaDto);
-        return mapper.toDto(repository.save(receita));
+        receitaRepository.save(receita);
+
+        return mapper.toDto(receita);
     }
 
     public ReceitaDto atualizarReceita(Long id, ReceitaDto receitaDto) {
-        Receita receitaExistente = repository.findById(id)
+        Receita receitaExistente = receitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
 
         receitaExistente.setValorReceita(receitaDto.valorReceita());
         receitaExistente.setDescricaoRecebimento(receitaDto.descricaoRecebimento());
         receitaExistente.setCategoriaReceita(receitaDto.categoriaReceita());
 
-        repository.save(receitaExistente);
+        receitaRepository.save(receitaExistente);
         return mapper.toDto(receitaExistente);
     }
 
 
     public ReceitaDto alteraStatusReceita(Long id){
-        Receita receitaExistente = repository.findById(id)
+        Receita receitaExistente = receitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
 
         StatusReceitaEnum novoStatus = receitaExistente.getStatusReceita() == StatusReceitaEnum.RECEBIDO
@@ -66,14 +74,21 @@ public class ReceitaService {
 
         receitaExistente.setStatusReceita(novoStatus);
 
-        repository.save(receitaExistente);
+        receitaRepository.save(receitaExistente);
         return  mapper.toDto(receitaExistente);
 
     }
 
+    public BigDecimal somarReceitaPorStatus(StatusReceitaEnum recebido) {
+        return receitaRepository.somarReceitasPorStatus(StatusReceitaEnum.RECEBIDO);
+    }
 
+
+    public BigDecimal somarTodosOsSaldos() {
+        return saldoRepository.somarTodosOsSaldos();
+    }
 
     public void deletarReceita(Long id){
-        repository.deleteById(id);
+        receitaRepository.deleteById(id);
     }
 }

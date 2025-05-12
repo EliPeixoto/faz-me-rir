@@ -37,6 +37,8 @@ public class Receita {
     private String categoriaReceita;
 
     @Enumerated
+    @Column(nullable = false)
     private StatusReceitaEnum statusReceita;
+
 
 }

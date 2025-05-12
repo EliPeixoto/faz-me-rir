@@ -21,9 +21,8 @@ public class Saldo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "valor", nullable = false)
-    private BigDecimal valor;
+    @Column(nullable = false)
+    private BigDecimal valor; // Agora representa o saldo inicial
 
-    @Column(name = "data_entrada", nullable = false)
     private LocalDate dataEntrada;
 }

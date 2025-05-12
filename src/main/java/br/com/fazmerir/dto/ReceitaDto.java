@@ -27,5 +27,6 @@ public record ReceitaDto(
 
         @Enumerated
         StatusReceitaEnum statusReceita
+
 ) {
 }

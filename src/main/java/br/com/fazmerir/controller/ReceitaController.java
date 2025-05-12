@@ -1,6 +1,10 @@
 package br.com.fazmerir.controller;
 
 import br.com.fazmerir.dto.ReceitaDto;
+import br.com.fazmerir.dto.SaldoTotalResponseDto;
+import br.com.fazmerir.enums.StatusReceitaEnum;
+import br.com.fazmerir.repository.ReceitaRepository;
+import br.com.fazmerir.repository.SaldoRepository;
 import br.com.fazmerir.services.ReceitaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -17,6 +22,11 @@ public class ReceitaController {
 
     @Autowired
     private ReceitaService service;
+    @Autowired
+    private ReceitaRepository receitaRepository;
+
+    @Autowired
+    private SaldoRepository saldoRepository;
 
     @GetMapping()
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {
@@ -38,6 +48,10 @@ public class ReceitaController {
         ReceitaDto receitaAtualizada = service.atualizarReceita(id, receitaDto);
         return ResponseEntity.ok(receitaAtualizada);
     }
+
+
+
+
 
     @PutMapping("altera-status/{id}")
     public ResponseEntity<ReceitaDto> alteraStatusReceita(@PathVariable Long id){
