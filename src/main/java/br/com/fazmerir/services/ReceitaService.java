@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ReceitaService {
@@ -72,6 +73,7 @@ public class ReceitaService {
                 ? StatusReceitaEnum.PENDENTE
                 : StatusReceitaEnum.RECEBIDO;
 
+
         receitaExistente.setStatusReceita(novoStatus);
 
         receitaRepository.save(receitaExistente);
@@ -79,8 +81,16 @@ public class ReceitaService {
 
     }
 
-    public BigDecimal somarReceitaPorStatus(StatusReceitaEnum recebido) {
-        return receitaRepository.somarReceitasPorStatus(StatusReceitaEnum.RECEBIDO);
+    public BigDecimal somarReceitaPorStatus() {
+
+       List<Receita> receitaExistente = receitaRepository.findAll();
+
+       BigDecimal totalRecebido = receitaExistente.stream()
+               .filter(r -> StatusReceitaEnum.RECEBIDO.equals(r.getStatusReceita()))
+               .map(Receita::getValorReceita)
+               .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return totalRecebido;
     }
 
 

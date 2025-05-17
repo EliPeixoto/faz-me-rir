@@ -1,8 +1,6 @@
 package br.com.fazmerir.controller;
 
 import br.com.fazmerir.dto.ReceitaDto;
-import br.com.fazmerir.dto.SaldoTotalResponseDto;
-import br.com.fazmerir.enums.StatusReceitaEnum;
 import br.com.fazmerir.repository.ReceitaRepository;
 import br.com.fazmerir.repository.SaldoRepository;
 import br.com.fazmerir.services.ReceitaService;
@@ -36,6 +34,11 @@ public class ReceitaController {
     @GetMapping("/{id}")
     public ResponseEntity<ReceitaDto> buscaReceitaPorId(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.buscaReceitaPorId(id));
+    }
+
+    @GetMapping("/soma-recebido")
+    public ResponseEntity<BigDecimal> somarReceitasRecebidas(){
+        return ResponseEntity.status(HttpStatus.OK).body(service.somarReceitaPorStatus());
     }
 
     @PostMapping
