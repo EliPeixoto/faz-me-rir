@@ -28,11 +28,10 @@ public class SaldoService {
     @Autowired
     private ReceitaRepository receitaRepository;
 
-    public SaldoResponseDto saldoAtual() {
-        BigDecimal total = receitaRepository.somarReceitasPorStatus(StatusReceitaEnum.RECEBIDO);
-        LocalDate ultimaData = receitaRepository.buscarUltimaDataPorStatus(StatusReceitaEnum.RECEBIDO);
-        return new SaldoResponseDto(total, ultimaData);
-    }
+/*    public SaldoResponseDto saldoAtual() {
+
+
+    }*/
 
 
     public SaldoDto cadastrarSaldo(SaldoDto dto) {
@@ -48,23 +47,6 @@ public class SaldoService {
         return mapper.toDto(repository.save(saldoInicial));
     }
 
-    public SaldoTotalResponseDto calcularSaldoTotal() {
-        BigDecimal saldoInicial = repository.somarTodosOsSaldos(); // só terá 1 valor agora
-        BigDecimal receitas = receitaRepository.somarReceitasPorStatus(StatusReceitaEnum.RECEBIDO);
-        BigDecimal despesas = BigDecimal.ZERO; // futuramente: despesaRepository.somarDespesasPorStatus(StatusDespesaEnum.PAGO);
-
-        return new SaldoTotalResponseDto(saldoInicial, receitas, despesas);
-    }
-
-
-    private LocalDate buscarUltimaData(SaldoFiltroDto filtro) {
-        LocalDate dataSaldo = filtro.isIncluirSaldoManual() ? repository.buscarUltimaDataEntrada() : null;
-        LocalDate dataReceita = filtro.isIncluirReceitas() ? repository.buscarUltimaDataReceita() : null;
-
-        if (dataSaldo == null) return dataReceita;
-        if (dataReceita == null) return dataSaldo;
-        return dataSaldo.isAfter(dataReceita) ? dataSaldo : dataReceita;
-    }
 
 
     public void adicionarSaldo(BigDecimal valor) {

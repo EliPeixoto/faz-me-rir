@@ -18,19 +18,14 @@ public class SaldoController {
     @Autowired
     private SaldoService service;
 
-    @GetMapping
+/*    @GetMapping
     public ResponseEntity<SaldoResponseDto> saldoAtual(){
         return ResponseEntity.ok(service.saldoAtual());
-    }
+    }*/
 
     @PostMapping
     public ResponseEntity<SaldoDto> cadastrarSaldo(@RequestBody @Valid SaldoDto dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.cadastrarSaldo(dto));
-    }
-
-    @GetMapping("/resumo-financeiro")
-    public ResponseEntity<SaldoTotalResponseDto> resumoFinanceiro() {
-        return ResponseEntity.ok(service.calcularSaldoTotal());
     }
 
 
