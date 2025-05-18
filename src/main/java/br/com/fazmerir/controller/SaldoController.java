@@ -1,9 +1,7 @@
 package br.com.fazmerir.controller;
 
 import br.com.fazmerir.dto.SaldoDto;
-import br.com.fazmerir.dto.SaldoFiltroDto;
 import br.com.fazmerir.dto.SaldoResponseDto;
-import br.com.fazmerir.dto.SaldoTotalResponseDto;
 import br.com.fazmerir.services.SaldoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,10 @@ public class SaldoController {
     @Autowired
     private SaldoService service;
 
-/*    @GetMapping
+    @GetMapping
     public ResponseEntity<SaldoResponseDto> saldoAtual(){
         return ResponseEntity.ok(service.saldoAtual());
-    }*/
+    }
 
     @PostMapping
     public ResponseEntity<SaldoDto> cadastrarSaldo(@RequestBody @Valid SaldoDto dto){
