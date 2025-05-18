@@ -41,4 +41,17 @@ public class DespesaService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         return totalPago;
     }
+
+    public DespesaDto alteraStatusDespesa(Long id){
+        Despesa despesaExistente = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Despesa Não encontrada"));
+
+        StatusDespesaEnum status = despesaExistente.getStatusDespesa() == StatusDespesaEnum.PAGO
+                ? StatusDespesaEnum.PENDENTE
+                : StatusDespesaEnum.PAGO;
+
+        despesaExistente.setStatusDespesa(status);
+        repository.save(despesaExistente);
+        return mapper.toDto(despesaExistente);
+    }
 }

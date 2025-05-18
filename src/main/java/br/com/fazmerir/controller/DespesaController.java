@@ -34,4 +34,10 @@ public class DespesaController {
     public ResponseEntity<BigDecimal>somaDespesasPagas(){
         return ResponseEntity.status(HttpStatus.OK).body(service.somarDespesaPorStatus());
     }
+
+    @PutMapping("/altera-status/{id}")
+    public ResponseEntity<DespesaDto>alteraStatusDespesa(@PathVariable Long id){
+        DespesaDto statusAtualizado = service.alteraStatusDespesa(id);
+        return ResponseEntity.status(HttpStatus.OK).body(statusAtualizado);
+    }
 }
