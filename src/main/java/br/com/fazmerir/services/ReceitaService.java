@@ -5,14 +5,12 @@ import br.com.fazmerir.entities.Receita;
 import br.com.fazmerir.enums.StatusReceitaEnum;
 import br.com.fazmerir.mapper.ReceitaMapper;
 import br.com.fazmerir.repository.ReceitaRepository;
-import br.com.fazmerir.repository.SaldoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ReceitaService {
@@ -22,11 +20,6 @@ public class ReceitaService {
 
     @Autowired
     private ReceitaRepository receitaRepository;
-
-    @Autowired
-    private SaldoRepository saldoRepository;
-    @Autowired
-    private SaldoService saldoService;
 
 
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {
@@ -73,7 +66,6 @@ public class ReceitaService {
                 ? StatusReceitaEnum.PENDENTE
                 : StatusReceitaEnum.RECEBIDO;
 
-
         receitaExistente.setStatusReceita(novoStatus);
 
         receitaRepository.save(receitaExistente);
@@ -93,10 +85,6 @@ public class ReceitaService {
         return totalRecebido;
     }
 
-
-    public BigDecimal somarTodosOsSaldos() {
-        return saldoRepository.somarTodosOsSaldos();
-    }
 
     public void deletarReceita(Long id){
         receitaRepository.deleteById(id);

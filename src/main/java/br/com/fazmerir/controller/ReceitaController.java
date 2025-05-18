@@ -53,9 +53,6 @@ public class ReceitaController {
     }
 
 
-
-
-
     @PutMapping("altera-status/{id}")
     public ResponseEntity<ReceitaDto> alteraStatusReceita(@PathVariable Long id){
         ReceitaDto statusAtualizado = service.alteraStatusReceita(id);
