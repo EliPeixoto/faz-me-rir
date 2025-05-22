@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 @Table(name = "receita")
-public class Receita {
+public class Receita extends Auditoria{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

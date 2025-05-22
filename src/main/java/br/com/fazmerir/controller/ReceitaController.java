@@ -1,8 +1,6 @@
 package br.com.fazmerir.controller;
 
 import br.com.fazmerir.dto.ReceitaDto;
-import br.com.fazmerir.repository.ReceitaRepository;
-import br.com.fazmerir.repository.SaldoRepository;
 import br.com.fazmerir.services.ReceitaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +18,7 @@ public class ReceitaController {
 
     @Autowired
     private ReceitaService service;
-    @Autowired
-    private ReceitaRepository receitaRepository;
 
-    @Autowired
-    private SaldoRepository saldoRepository;
 
     @GetMapping()
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {

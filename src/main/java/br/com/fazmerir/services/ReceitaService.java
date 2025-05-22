@@ -1,10 +1,12 @@
 package br.com.fazmerir.services;
 
 import br.com.fazmerir.dto.ReceitaDto;
+import br.com.fazmerir.dto.UsuarioDto;
 import br.com.fazmerir.entities.Receita;
 import br.com.fazmerir.enums.StatusReceitaEnum;
 import br.com.fazmerir.mapper.ReceitaMapper;
 import br.com.fazmerir.repository.ReceitaRepository;
+import br.com.fazmerir.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class ReceitaService {
 
     @Autowired
     private ReceitaRepository receitaRepository;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
 
     public ResponseEntity<List<ReceitaDto>> listarReceitas() {
@@ -40,7 +45,11 @@ public class ReceitaService {
     public ReceitaDto cadastrarReceita(ReceitaDto receitaDto) {
 
         Receita receita = mapper.toEntity(receitaDto);
+
+
+        receita.setCriadoPor(usuarioService.getNomeUsuarioLogado());
         receitaRepository.save(receita);
+
 
         return mapper.toDto(receita);
     }

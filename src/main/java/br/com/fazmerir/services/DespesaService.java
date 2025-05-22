@@ -1,6 +1,7 @@
 package br.com.fazmerir.services;
 
 import br.com.fazmerir.dto.DespesaDto;
+import br.com.fazmerir.dto.UsuarioDto;
 import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.entities.Receita;
 import br.com.fazmerir.enums.StatusDespesaEnum;
@@ -19,17 +20,20 @@ public class DespesaService {
 
     private final DespesaRepository repository;
     private final DespesaMapper mapper;
-    public List<Despesa> buscarDespesas(){
+    private final UsuarioService usuarioService;
+
+
+    public List<Despesa> buscarDespesas() {
         return repository.findAll();
     }
 
     public Despesa cadastrarDespesa(DespesaDto dto) {
-       Despesa despesa = mapper.toEntity(dto);
-       return repository.save(despesa);
+        Despesa despesa = mapper.toEntity(dto);
+
+        despesa.setCriadoPor(usuarioService.getNomeUsuarioLogado());
+
+        return repository.save(despesa);
     }
-
-
-
 
 
     public BigDecimal somarDespesaPorStatus() {
@@ -42,7 +46,7 @@ public class DespesaService {
         return totalPago;
     }
 
-    public DespesaDto alteraStatusDespesa(Long id){
+    public DespesaDto alteraStatusDespesa(Long id) {
         Despesa despesaExistente = repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Despesa Não encontrada"));
 

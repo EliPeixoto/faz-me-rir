@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Despesa {
+public class Despesa extends Auditoria{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
