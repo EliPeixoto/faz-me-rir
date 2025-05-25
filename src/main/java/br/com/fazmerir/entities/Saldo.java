@@ -1,5 +1,7 @@
 package br.com.fazmerir.entities;
 
+import br.com.fazmerir.util.AuditListener;
+import br.com.fazmerir.util.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +17,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Saldo {
+@EntityListeners(AuditListener.class)
+public class Saldo implements AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +28,9 @@ public class Saldo {
     private BigDecimal valor; // Agora representa o saldo inicial
 
     private LocalDate dataEntrada;
+
+    @Override
+    public boolean isNew() {
+        return false;
+    }
 }

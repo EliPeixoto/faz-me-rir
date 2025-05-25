@@ -1,6 +1,8 @@
 package br.com.fazmerir.entities;
 
 import br.com.fazmerir.enums.StatusReceitaEnum;
+import br.com.fazmerir.util.AuditListener;
+import br.com.fazmerir.util.AuditableEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,7 +20,8 @@ import java.time.LocalDate;
 @ToString
 @EqualsAndHashCode
 @Table(name = "receita")
-public class Receita extends Auditoria{
+@EntityListeners(AuditListener.class)
+public class Receita implements AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,4 +44,8 @@ public class Receita extends Auditoria{
     private StatusReceitaEnum statusReceita;
 
 
+    @Override
+    public boolean isNew() {
+        return false;
+    }
 }

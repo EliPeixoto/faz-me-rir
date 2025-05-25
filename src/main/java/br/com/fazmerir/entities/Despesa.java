@@ -2,10 +2,9 @@ package br.com.fazmerir.entities;
 
 
 import br.com.fazmerir.enums.StatusDespesaEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import br.com.fazmerir.util.AuditListener;
+import br.com.fazmerir.util.AuditableEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Despesa extends Auditoria{
+@EntityListeners(AuditListener.class)
+public class Despesa implements AuditableEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -26,4 +26,9 @@ public class Despesa extends Auditoria{
     private BigDecimal valorDespesa;
     private String descricaoDespesa;
     private StatusDespesaEnum statusDespesa;
+
+    @Override
+    public boolean isNew() {
+        return false;
+    }
 }

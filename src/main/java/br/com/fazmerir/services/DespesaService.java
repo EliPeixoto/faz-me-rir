@@ -1,11 +1,8 @@
 package br.com.fazmerir.services;
 
 import br.com.fazmerir.dto.DespesaDto;
-import br.com.fazmerir.dto.UsuarioDto;
 import br.com.fazmerir.entities.Despesa;
-import br.com.fazmerir.entities.Receita;
 import br.com.fazmerir.enums.StatusDespesaEnum;
-import br.com.fazmerir.enums.StatusReceitaEnum;
 import br.com.fazmerir.mapper.DespesaMapper;
 import br.com.fazmerir.repository.DespesaRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +26,6 @@ public class DespesaService {
 
     public Despesa cadastrarDespesa(DespesaDto dto) {
         Despesa despesa = mapper.toEntity(dto);
-
-        despesa.setCriadoPor(usuarioService.getNomeUsuarioLogado());
 
         return repository.save(despesa);
     }
