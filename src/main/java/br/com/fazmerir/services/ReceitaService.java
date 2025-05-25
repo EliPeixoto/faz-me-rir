@@ -47,7 +47,6 @@ public class ReceitaService {
         Receita receita = mapper.toEntity(receitaDto);
 
 
-        receita.setCriadoPor(usuarioService.getNomeUsuarioLogado());
         receitaRepository.save(receita);
 
 
