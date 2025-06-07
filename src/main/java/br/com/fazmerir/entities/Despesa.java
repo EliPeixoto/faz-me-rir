@@ -29,6 +29,6 @@ public class Despesa implements AuditableEntity {
 
     @Override
     public boolean isNew() {
-        return false;
+        return this.id == null;
     }
 }

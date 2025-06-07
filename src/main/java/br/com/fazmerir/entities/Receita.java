@@ -46,6 +46,6 @@ public class Receita implements AuditableEntity {
 
     @Override
     public boolean isNew() {
-        return false;
+        return this.id == null;
     }
 }

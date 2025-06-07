@@ -9,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface DespesaMapper {
 
-    ReceitaMapper INSTANCE = Mappers.getMapper(ReceitaMapper.class);
+    DespesaMapper INSTANCE = Mappers.getMapper(DespesaMapper.class);
 
 Despesa toEntity(DespesaDto dto);
 DespesaDto toDto(Despesa entity);
