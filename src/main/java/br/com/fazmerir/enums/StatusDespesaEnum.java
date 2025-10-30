@@ -2,5 +2,7 @@ package br.com.fazmerir.enums;
 
 public enum StatusDespesaEnum {
     PAGO,
-    PENDENTE
+    PENDENTE,
+    VENCIDO,
+    A_VENCER
 }

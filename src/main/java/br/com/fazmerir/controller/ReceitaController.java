@@ -3,6 +3,7 @@ package br.com.fazmerir.controller;
 import br.com.fazmerir.dto.ReceitaDto;
 import br.com.fazmerir.services.ReceitaService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/receitas")
 @CrossOrigin(origins = "http://localhost:4200")
+@RequiredArgsConstructor
 public class ReceitaController {
 
-    @Autowired
-    private ReceitaService service;
+
+    private final ReceitaService service;
 
 
     @GetMapping()

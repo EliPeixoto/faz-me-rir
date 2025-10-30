@@ -9,6 +9,10 @@ import java.util.Map;
 
 public class JwtUtil {
 
+    private  JwtUtil(){
+        throw  new UnsupportedOperationException("Classe utilitaria nao deve ser instanciada");
+    }
+
     public static Jwt getJwtToken(){
         var auth = SecurityContextHolder.getContext().getAuthentication();
 

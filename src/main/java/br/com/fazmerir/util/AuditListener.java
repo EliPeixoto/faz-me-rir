@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Log4j2
-public class AuditListener {
+public class AuditListener  {
 
     @PrePersist
     @PreUpdate
@@ -24,8 +24,7 @@ public class AuditListener {
     public void onAnyChange(Object entity){
         String username = "UNKNOWN";
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth instanceof JwtAuthenticationToken) {
-            JwtAuthenticationToken jwt = (JwtAuthenticationToken) auth;
+        if (auth instanceof JwtAuthenticationToken jwt) {
             Map<String, Object> claims = jwt.getTokenAttributes();
             username = (String) claims.get("preferred_username");
         } else if (auth != null && auth.getName() != null) {
@@ -33,13 +32,14 @@ public class AuditListener {
         }
 
         String action = "UNKNOWN";
-        if (entity instanceof AuditableEntity) {
-            if (((AuditableEntity) entity).isNew()) {
+        if (entity instanceof AuditableEntity auditableEntity) {
+            if (auditableEntity.isNew()) {
                 action = "CREATE";
             } else {
                 action = "UPDATE";
             }
         }
+
 
         AuditLog log = new AuditLog();
         log.setUsername(username);

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -25,7 +26,9 @@ public class Despesa implements AuditableEntity {
 
     private BigDecimal valorDespesa;
     private String descricaoDespesa;
+    @Enumerated(EnumType.STRING)
     private StatusDespesaEnum statusDespesa;
+    private LocalDate dataVencimento;
 
     @Override
     public boolean isNew() {

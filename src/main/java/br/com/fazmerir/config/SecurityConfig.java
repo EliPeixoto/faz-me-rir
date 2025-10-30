@@ -22,9 +22,8 @@ public class SecurityConfig {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        // Libera endpoints públicos
+                        .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(
-                                "http://localhost:4200",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/public/**",

@@ -8,13 +8,23 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DespesaFilter {
+
+public final class DespesaFilter {
+
+    // Construtor privado para evitar instanciamento
+    private DespesaFilter() {
+        throw new UnsupportedOperationException("Classe utilitária, não deve ser instanciada.");
+    }
+
     public static Specification<Despesa> despesaComFiltros(DespesaFiltroDto filtro) {
         return (root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
             if (filtro.getDescricaoDespesa() != null && !filtro.getDescricaoDespesa().isEmpty()) {
-                predicates.add(builder.like(builder.lower(root.get("descricaoDespesa")), "%" + filtro.getDescricaoDespesa().toLowerCase() + "%"));
+                predicates.add(builder.like(
+                        builder.lower(root.get("descricaoDespesa")),
+                        "%" + filtro.getDescricaoDespesa().toLowerCase() + "%"
+                ));
             }
 
             if (filtro.getValorDespesa() != null) {
@@ -26,7 +36,7 @@ public class DespesaFilter {
             }
 
             return builder.and(predicates.toArray(new Predicate[0]));
-
         };
     }
 }
+

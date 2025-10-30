@@ -41,3 +41,6 @@ O jar será gerado em `target/`.
 - `GET /despesas/soma-pago` – soma despesas pagas.
 - `GET /saldo` – consulta o saldo atual.
 - `POST /saldo` – cadastra saldo inicial.
+
+## Melhorias
+- `Notificacoes` - mostrar quando uma despesa está proxima ao vencimento

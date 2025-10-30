@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +23,14 @@ public class DespesaService {
 
 
     public Despesa cadastrarDespesa(DespesaDto dto) {
+        LocalDate dataVencimento = dto.getDataVencimento();
+        dto.setStatusDespesa(StatusDespesaEnum.PENDENTE);
+        if (dataVencimento != null) {
+            //valida se a data de vencimento já venceu
+            StatusDespesaEnum status = dataVencimento.isBefore(LocalDate.now()) ?  StatusDespesaEnum.VENCIDO :StatusDespesaEnum.A_VENCER;
+            dto.setStatusDespesa(status);
+        }
         Despesa despesa = mapper.toEntity(dto);
-
         return repository.save(despesa);
     }
 
@@ -32,11 +38,11 @@ public class DespesaService {
     public BigDecimal somarDespesaPorStatus() {
         List<Despesa> despesaExistente = repository.findAll();
 
-        BigDecimal totalPago = despesaExistente.stream()
+        return despesaExistente.stream()
                 .filter(d -> StatusDespesaEnum.PAGO.equals(d.getStatusDespesa()))
                 .map(Despesa::getValorDespesa)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
-        return totalPago;
+
     }
 
     public DespesaDto alteraStatusDespesa(Long id) {
@@ -61,7 +67,7 @@ public class DespesaService {
         List<Despesa> despesas = repository.findAll(DespesaFilter.despesaComFiltros(filtro));
         return despesas.stream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
 
     }
 
