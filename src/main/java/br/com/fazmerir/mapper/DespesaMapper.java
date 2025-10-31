@@ -7,6 +7,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface DespesaMapper {
 
@@ -17,5 +19,8 @@ public interface DespesaMapper {
 
     @Mapping(source = "id", target = "id")
     DespesaDto toDto(Despesa entity);
+
+
+    List<DespesaDto> toListDto(List<Despesa> entity);
 
 }

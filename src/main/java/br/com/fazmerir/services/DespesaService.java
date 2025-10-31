@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class DespesaService {
         dto.setStatusDespesa(StatusDespesaEnum.PENDENTE);
         if (dataVencimento != null) {
             //valida se a data de vencimento já venceu
-            StatusDespesaEnum status = dataVencimento.isBefore(LocalDate.now()) ?  StatusDespesaEnum.VENCIDO :StatusDespesaEnum.A_VENCER;
+            StatusDespesaEnum status = dataVencimento.isBefore(LocalDate.now()) ? StatusDespesaEnum.VENCIDO : StatusDespesaEnum.A_VENCER;
             dto.setStatusDespesa(status);
         }
         Despesa despesa = mapper.toEntity(dto);
@@ -70,6 +71,24 @@ public class DespesaService {
                 .toList();
 
     }
+
+    public List<DespesaDto> listaTodasDespesasVencidas() {
+        List<Despesa> despesas = repository.findAll();
+        LocalDate hoje = LocalDate.now();
+
+        List<Despesa> despesasVencidas = despesas.stream()
+                .filter(d -> d.getDataVencimento() != null && d.getDataVencimento().isBefore(hoje.plusDays(1)))
+                .map(d -> {
+                    if (!d.getStatusDespesa().equals(StatusDespesaEnum.PAGO)) {
+                        d.setStatusDespesa(StatusDespesaEnum.VENCIDO);
+                        repository.save(d);
+                    }
+                    return d;
+                })
+                .collect(Collectors.toList());
+        return mapper.toListDto(despesasVencidas);
+    }
+
 
     public BigDecimal somarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa) {
         DespesaFiltroDto filtro = new DespesaFiltroDto();
