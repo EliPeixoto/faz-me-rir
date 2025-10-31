@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/despesas")
+@RequestMapping("v1/despesas")
 public class DespesaController {
 
     private final DespesaService service;
@@ -55,4 +55,12 @@ public class DespesaController {
         DespesaDto statusAtualizado = service.alteraStatusDespesa(id);
         return ResponseEntity.status(HttpStatus.OK).body(statusAtualizado);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletaDespesa(@PathVariable Long id){
+         service.deletaDespesa(id);
+         return ResponseEntity.ok("Despesa deletada com sucesso");
+    }
+
+
 }

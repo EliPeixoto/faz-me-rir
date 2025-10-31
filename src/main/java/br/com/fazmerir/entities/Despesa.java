@@ -20,8 +20,10 @@ import java.time.LocalDate;
 @Entity
 @EntityListeners(AuditListener.class)
 public class Despesa implements AuditableEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "despesa_seq")
+    @SequenceGenerator(name = "despesa_seq", sequenceName = "despesa_id_seq", allocationSize = 1)
     private Long id;
 
     private BigDecimal valorDespesa;

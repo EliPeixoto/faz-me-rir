@@ -85,4 +85,7 @@ public class DespesaService {
     }
 
 
+    public void deletaDespesa(Long id) {
+        repository.deleteById(id);
+    }
 }
