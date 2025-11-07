@@ -1,0 +1,17 @@
+### lista despesa
+GET {{host_api}}/v1/despesas
+Content-Type: application/json
+
+
+### Cadastra despesa
+POST {{host_api}}/v1/despesas
+Authorization: Bearer {{jwtToken}} 👈 Use o nome 'jwtToken' aqui
+Content-Type: application/json
+
+{
+  "valorDespesa": 650.00,
+  "descricaoDespesa": "mensalidade fretado",
+  "statusDespesa": "PAGO",
+  "dataVencimento": "10/11/2025",
+  "numeroWhatsApp": "11976615592"
+}
