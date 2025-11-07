@@ -21,7 +21,7 @@ public class VerificadorVencimentoDespesas {
     private final NotificacaoService notificacaoService;
     DateTimeFormatter formatadorPtBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    @Scheduled(cron = "*/30 * * * * *")
+   // @Scheduled(cron = "*/30 * * * * *")
     public void verificarDespesasVencidas(){
         System.out.println("Verificando despesas vencidas...");
 
