@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface DespesaRepository extends JpaRepository<Despesa, Long> , JpaSpecificationExecutor<Despesa> {
 
 
+    boolean existsByDescricaoDespesa(String descricao);
 }

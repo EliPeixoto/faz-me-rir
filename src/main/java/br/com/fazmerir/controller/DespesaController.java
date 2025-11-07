@@ -5,6 +5,7 @@ import br.com.fazmerir.dto.DespesaDto;
 import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.enums.StatusDespesaEnum;
 import br.com.fazmerir.services.DespesaService;
+import br.com.fazmerir.validation.ValidaDespesa;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ import java.util.List;
 public class DespesaController {
 
     private final DespesaService service;
+    private final ValidaDespesa validaDespesa;
 
 
 
@@ -42,6 +44,7 @@ public class DespesaController {
 
     @PostMapping
     public ResponseEntity<Despesa> cadastraDespesa(@RequestBody DespesaDto dto) {
+        validaDespesa.validaDespesaDescricao(dto);
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarDespesa(dto));
     }
 

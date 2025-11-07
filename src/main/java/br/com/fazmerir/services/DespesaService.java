@@ -25,17 +25,20 @@ public class DespesaService {
 
     public Despesa cadastrarDespesa(DespesaDto dto) {
         LocalDate dataVencimento = dto.getDataVencimento();
-        dto.setStatusDespesa(StatusDespesaEnum.PENDENTE);
-        if (dataVencimento != null) {
-            //valida se a data de vencimento já venceu
-            StatusDespesaEnum status = dataVencimento.isBefore(LocalDate.now()) ? StatusDespesaEnum.VENCIDO : StatusDespesaEnum.A_VENCER;
-            dto.setStatusDespesa(status);
+        StatusDespesaEnum status = dto.getStatusDespesa();
+        if(status == null) {
+            if (dataVencimento != null) {
+                //valida se a data de vencimento já venceu
+                status = dataVencimento.isBefore(LocalDate.now()) ? StatusDespesaEnum.VENCIDO : StatusDespesaEnum.A_VENCER;
+                dto.setStatusDespesa(status);
+            }
         }
         Despesa despesa = mapper.toEntity(dto);
         return repository.save(despesa);
     }
 
 
+    //Soma despesas com mesmo status, para verificar despesas ja pagas
     public BigDecimal somarDespesaPorStatus() {
         List<Despesa> despesaExistente = repository.findAll();
 
