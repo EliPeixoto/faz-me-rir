@@ -4,6 +4,7 @@ package br.com.fazmerir.controller;
 import br.com.fazmerir.dto.DespesaDto;
 import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.enums.StatusDespesaEnum;
+import br.com.fazmerir.response.DespesaResponse;
 import br.com.fazmerir.services.DespesaService;
 import br.com.fazmerir.validation.ValidaDespesa;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class DespesaController {
     }
 
     @GetMapping("somar-filtro")
-    public ResponseEntity<BigDecimal> somarComFiltro(
+    public ResponseEntity<DespesaResponse> somarComFiltro(
             @RequestParam(required = false) BigDecimal valorDespesa,
             @RequestParam(required = false) String descricaoDespesa,
             @RequestParam(required = false) StatusDespesaEnum statusDespesa
@@ -48,10 +49,6 @@ public class DespesaController {
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarDespesa(dto));
     }
 
-    @GetMapping("/soma-pago")
-    public ResponseEntity<BigDecimal> somaDespesasPagas() {
-        return ResponseEntity.status(HttpStatus.OK).body(service.somarDespesaPorStatus());
-    }
 
     @PutMapping("/altera-status/{id}")
     public ResponseEntity<DespesaDto> alteraStatusDespesa(@PathVariable Long id) {

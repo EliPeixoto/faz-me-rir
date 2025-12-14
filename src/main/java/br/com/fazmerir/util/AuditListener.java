@@ -46,7 +46,7 @@ public class AuditListener  {
         log.setAction(action);
         log.setEntity(entity.getClass().getSimpleName());
         log.setEntityId(getEntityId(entity));
-        log.setTimestamp(LocalDateTime.now());
+        log.setCreatedAt(LocalDateTime.now());
 
         try {
             ObjectMapper mapper = new ObjectMapper();

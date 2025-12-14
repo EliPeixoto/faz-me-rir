@@ -3,6 +3,7 @@ package br.com.fazmerir.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,9 +19,9 @@ public class AuditLog {
     private String action;
     private String entity;
     private Long entityId;
-    private LocalDateTime timestamp;
+    @Column(name = "CREATED_AT", nullable = false)
+    private LocalDateTime createdAt;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(name = "DETAILS", length = 1000)
     private String details;
-
 }

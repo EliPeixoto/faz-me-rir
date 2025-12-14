@@ -23,7 +23,7 @@ public final class DespesaFilter {
             if (filtro.getDescricaoDespesa() != null && !filtro.getDescricaoDespesa().isEmpty()) {
                 predicates.add(builder.like(
                         builder.lower(root.get("descricaoDespesa")),
-                        "%" + filtro.getDescricaoDespesa().toLowerCase() + "%"
+                         filtro.getDescricaoDespesa().toLowerCase() + "%"
                 ));
             }
 

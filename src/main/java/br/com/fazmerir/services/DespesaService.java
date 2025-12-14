@@ -7,6 +7,7 @@ import br.com.fazmerir.enums.StatusDespesaEnum;
 import br.com.fazmerir.filter.DespesaFilter;
 import br.com.fazmerir.mapper.DespesaMapper;
 import br.com.fazmerir.repository.DespesaRepository;
+import br.com.fazmerir.response.DespesaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -93,7 +94,7 @@ public class DespesaService {
     }
 
 
-    public BigDecimal somarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa) {
+    public DespesaResponse somarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa) {
         DespesaFiltroDto filtro = new DespesaFiltroDto();
         filtro.setValorDespesa(valorDespesa);
         filtro.setDescricaoDespesa(descricaoDespesa);
@@ -101,9 +102,16 @@ public class DespesaService {
 
         List<Despesa> despesas = repository.findAll(DespesaFilter.despesaComFiltros(filtro));
 
-        return despesas.stream()
+        BigDecimal total = despesas.stream()
                 .map(Despesa::getValorDespesa)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        DespesaResponse response = new DespesaResponse();
+        response.descricao = "Total das despesas somadas:";
+        response.status = statusDespesa;
+        response.valor = total;
+
+       return response;
     }
 
 
