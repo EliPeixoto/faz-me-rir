@@ -1,6 +1,7 @@
 package br.com.fazmerir.dto;
 
 
+import br.com.fazmerir.entities.Categoria;
 import br.com.fazmerir.enums.StatusDespesaEnum;
 import lombok.Data;
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class DespesaDto {
     private StatusDespesaEnum statusDespesa;
     private LocalDate dataVencimento;
     private String numeroWhatsApp;
+    private Categoria categoria;
 }

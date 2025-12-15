@@ -23,8 +23,8 @@ public class SaldoService {
     private final ReceitaService receitaService;
 
     public SaldoResponseDto saldoAtual() {
-        BigDecimal totalReceita = receitaService.somarReceitaPorStatus();
-        BigDecimal totalDespesa = despesaService.somarDespesaPorStatus();
+        BigDecimal totalReceita = receitaService.somarReceitasStatusRecebido();
+        BigDecimal totalDespesa = despesaService.somarDespesaPorStatusPago();
         BigDecimal saldo = totalReceita.subtract(totalDespesa);
         LocalDate horaAtual = LocalDate.now();
 

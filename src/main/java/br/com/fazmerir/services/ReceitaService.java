@@ -74,7 +74,7 @@ public class ReceitaService {
 
     }
 
-    public BigDecimal somarReceitaPorStatus() {
+    public BigDecimal somarReceitasStatusRecebido() {
 
        List<Receita> receitaExistente = receitaRepository.findAll();
 

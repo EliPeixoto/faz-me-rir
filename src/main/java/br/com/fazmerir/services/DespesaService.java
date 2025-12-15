@@ -2,6 +2,7 @@ package br.com.fazmerir.services;
 
 import br.com.fazmerir.dto.DespesaDto;
 import br.com.fazmerir.dto.DespesaFiltroDto;
+import br.com.fazmerir.entities.Categoria;
 import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.enums.StatusDespesaEnum;
 import br.com.fazmerir.filter.DespesaFilter;
@@ -40,7 +41,7 @@ public class DespesaService {
 
 
     //Soma despesas com mesmo status, para verificar despesas ja pagas
-    public BigDecimal somarDespesaPorStatus() {
+    public BigDecimal somarDespesaPorStatusPago() {
         List<Despesa> despesaExistente = repository.findAll();
 
         return despesaExistente.stream()
@@ -63,11 +64,15 @@ public class DespesaService {
         return mapper.toDto(despesaExistente);
     }
 
-    public List<DespesaDto> listarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa) {
+    public List<DespesaDto> listarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa, Categoria categoria) {
+       Categoria categoria1 = new Categoria();
+       categoria1.setDescricao(categoria.getDescricao());
+
         DespesaFiltroDto filtro = new DespesaFiltroDto();
         filtro.setValorDespesa(valorDespesa);
         filtro.setDescricaoDespesa(descricaoDespesa);
         filtro.setStatusDespesa(statusDespesa);
+        filtro.setCategoria(categoria1);
 
         List<Despesa> despesas = repository.findAll(DespesaFilter.despesaComFiltros(filtro));
         return despesas.stream()

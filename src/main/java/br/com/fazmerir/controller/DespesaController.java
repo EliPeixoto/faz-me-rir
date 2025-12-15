@@ -2,6 +2,7 @@ package br.com.fazmerir.controller;
 
 
 import br.com.fazmerir.dto.DespesaDto;
+import br.com.fazmerir.entities.Categoria;
 import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.enums.StatusDespesaEnum;
 import br.com.fazmerir.response.DespesaResponse;
@@ -29,9 +30,10 @@ public class DespesaController {
     public ResponseEntity<List<DespesaDto>> listarComFiltro(
             @RequestParam(required = false) BigDecimal valorDespesa,
             @RequestParam(required = false) String descricaoDespesa,
-            @RequestParam(required = false) StatusDespesaEnum statusDespesa
+            @RequestParam(required = false) StatusDespesaEnum statusDespesa,
+            @RequestParam(required = false) Categoria categoria
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarDespesasComFiltro(valorDespesa, descricaoDespesa, statusDespesa));
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarDespesasComFiltro(valorDespesa, descricaoDespesa, statusDespesa, categoria));
     }
 
     @GetMapping("somar-filtro")

@@ -34,7 +34,7 @@ public class ReceitaController {
 
     @GetMapping("/soma-recebido")
     public ResponseEntity<BigDecimal> somarReceitasRecebidas(){
-        return ResponseEntity.status(HttpStatus.OK).body(service.somarReceitaPorStatus());
+        return ResponseEntity.status(HttpStatus.OK).body(service.somarReceitasStatusRecebido());
     }
 
     @PostMapping
