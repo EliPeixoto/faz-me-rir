@@ -7,6 +7,7 @@ import br.com.fazmerir.entities.Despesa;
 import br.com.fazmerir.enums.StatusDespesaEnum;
 import br.com.fazmerir.filter.DespesaFilter;
 import br.com.fazmerir.mapper.DespesaMapper;
+import br.com.fazmerir.repository.CategoriaRepository;
 import br.com.fazmerir.repository.DespesaRepository;
 import br.com.fazmerir.response.DespesaResponse;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,19 +25,37 @@ public class DespesaService {
 
     private final DespesaRepository repository;
     private final DespesaMapper mapper;
+    private final CategoriaRepository categoriaRepository;
 
 
     public Despesa cadastrarDespesa(DespesaDto dto) {
         LocalDate dataVencimento = dto.getDataVencimento();
         StatusDespesaEnum status = dto.getStatusDespesa();
-        if(status == null) {
+        if (status == null) {
             if (dataVencimento != null) {
                 //valida se a data de vencimento já venceu
                 status = dataVencimento.isBefore(LocalDate.now()) ? StatusDespesaEnum.VENCIDO : StatusDespesaEnum.A_VENCER;
                 dto.setStatusDespesa(status);
             }
         }
+        String descricaoCategoria = dto.getCategoria().toString();
+
+        if (descricaoCategoria == null || descricaoCategoria.isBlank()) {
+            throw new IllegalArgumentException("Categoria é obrigatoria");
+        }
+        descricaoCategoria = descricaoCategoria.trim();
+
+        String finalDescricaoCategoria = descricaoCategoria;
+        Categoria categoria = categoriaRepository.findByDescricaoIgnoreCase(descricaoCategoria)
+                .orElseGet(() -> {
+                    Categoria nova = new Categoria();
+
+                    nova.setDescricao(finalDescricaoCategoria);
+                    return categoriaRepository.save(nova);
+                });
         Despesa despesa = mapper.toEntity(dto);
+        despesa.setCategoria(categoria);
+
         return repository.save(despesa);
     }
 
@@ -64,16 +84,17 @@ public class DespesaService {
         return mapper.toDto(despesaExistente);
     }
 
-    public List<DespesaDto> listarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa, Categoria categoria) {
-       Categoria categoria1 = new Categoria();
-       categoria1.setDescricao(categoria.getDescricao());
+    public List<DespesaDto> listarDespesasComFiltro(BigDecimal valorDespesa, String descricaoDespesa, StatusDespesaEnum statusDespesa, Categoria categoria, LocalDate dataInicial, LocalDate dataFinal) {
+        Categoria categoria1 = new Categoria();
+        categoria1.setDescricao(categoria.getDescricao());
 
         DespesaFiltroDto filtro = new DespesaFiltroDto();
         filtro.setValorDespesa(valorDespesa);
         filtro.setDescricaoDespesa(descricaoDespesa);
         filtro.setStatusDespesa(statusDespesa);
         filtro.setCategoria(categoria1);
-
+        filtro.setDataInicial(dataInicial);
+        filtro.setDataFinal(dataFinal);
         List<Despesa> despesas = repository.findAll(DespesaFilter.despesaComFiltros(filtro));
         return despesas.stream()
                 .map(mapper::toDto)
@@ -116,7 +137,7 @@ public class DespesaService {
         response.status = statusDespesa;
         response.valor = total;
 
-       return response;
+        return response;
     }
 
 

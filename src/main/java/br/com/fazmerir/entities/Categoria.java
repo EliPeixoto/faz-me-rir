@@ -5,11 +5,13 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name= "categoria")
+@Table(name = "CATEGORIA")
 public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    @Column(name = "id")
+    Long categoriaId;
+    @Column(unique = true)
     String descricao;
 
 }

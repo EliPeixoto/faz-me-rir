@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class DespesaDto {
@@ -19,5 +20,5 @@ public class DespesaDto {
     private StatusDespesaEnum statusDespesa;
     private LocalDate dataVencimento;
     private String numeroWhatsApp;
-    private Categoria categoria;
+    private String categoria;
 }

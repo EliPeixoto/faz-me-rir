@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -31,9 +32,12 @@ public class DespesaController {
             @RequestParam(required = false) BigDecimal valorDespesa,
             @RequestParam(required = false) String descricaoDespesa,
             @RequestParam(required = false) StatusDespesaEnum statusDespesa,
-            @RequestParam(required = false) Categoria categoria
+            @RequestParam(required = false) Categoria categoria,
+            @RequestParam(required = false) LocalDate dataInicial,
+            @RequestParam(required = false) LocalDate dataFinal
     ) {
-        return ResponseEntity.status(HttpStatus.OK).body(service.listarDespesasComFiltro(valorDespesa, descricaoDespesa, statusDespesa, categoria));
+        return ResponseEntity.status(HttpStatus.OK).body(service.listarDespesasComFiltro(
+                valorDespesa, descricaoDespesa, statusDespesa, categoria, dataInicial, dataFinal));
     }
 
     @GetMapping("somar-filtro")
@@ -45,7 +49,7 @@ public class DespesaController {
         return ResponseEntity.status(HttpStatus.OK).body(service.somarDespesasComFiltro(valorDespesa, descricaoDespesa, statusDespesa));
     }
 
-    @PostMapping
+    @PostMapping("/salvar")
     public ResponseEntity<Despesa> cadastraDespesa(@RequestBody DespesaDto dto) {
         validaDespesa.validaDespesaDescricao(dto);
         return ResponseEntity.status(HttpStatus.OK).body(service.cadastrarDespesa(dto));

@@ -15,9 +15,11 @@ public interface DespesaMapper {
     DespesaMapper INSTANCE = Mappers.getMapper(DespesaMapper.class);
 
     @Mapping(source = "id", target = "id")
+    @Mapping(target = "categoria", ignore = true)
     Despesa toEntity(DespesaDto dto);
 
     @Mapping(source = "id", target = "id")
+    @Mapping(target = "categoria", source = "categoria.descricao")
     DespesaDto toDto(Despesa entity);
 
 

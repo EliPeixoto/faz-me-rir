@@ -12,6 +12,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +32,9 @@ public class Despesa implements AuditableEntity {
     @Enumerated(EnumType.STRING)
     private StatusDespesaEnum statusDespesa;
     private LocalDate dataVencimento;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 
     @Override
     public boolean isNew() {

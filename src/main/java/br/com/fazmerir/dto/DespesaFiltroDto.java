@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,4 +15,7 @@ public class DespesaFiltroDto {
     private String descricaoDespesa;
     private StatusDespesaEnum statusDespesa;
     private Categoria categoria;
+    private LocalDate dataVencimento;
+    private LocalDate dataInicial;
+    private LocalDate dataFinal;
 }

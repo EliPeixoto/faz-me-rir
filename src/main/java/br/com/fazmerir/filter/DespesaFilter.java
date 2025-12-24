@@ -34,7 +34,13 @@ public final class DespesaFilter {
             if (filtro.getStatusDespesa() != null) {
                 predicates.add(builder.equal(root.get("statusDespesa"), filtro.getStatusDespesa()));
             }
-
+            if(filtro.getDataInicial() != null && filtro.getDataFinal() !=null){
+                predicates.add(builder.between(root.get("dataVencimento"), filtro.getDataInicial(), filtro.getDataFinal()));
+            }else if(filtro.getDataInicial() != null){
+                predicates.add(builder.greaterThanOrEqualTo(root.get("dataVencimento"), filtro.getDataInicial()));
+            }else if(filtro.getDataFinal() != null){
+                predicates.add(builder.lessThanOrEqualTo(root.get("dataVencimento"), filtro.getDataFinal()));
+            }
             return builder.and(predicates.toArray(new Predicate[0]));
         };
     }
