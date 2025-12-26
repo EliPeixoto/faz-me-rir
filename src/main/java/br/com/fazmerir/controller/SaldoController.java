@@ -19,7 +19,7 @@ public class SaldoController {
     private final SaldoService service;
 
     @GetMapping
-    public ResponseEntity<SaldoResponseDto> saldoAtual(){
+    public ResponseEntity<SaldoDto> saldoAtual(){
         return ResponseEntity.ok(service.saldoAtual());
     }
 

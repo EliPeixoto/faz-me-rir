@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "saldo")
@@ -27,7 +27,7 @@ public class Saldo implements AuditableEntity {
     @Column(nullable = false)
     private BigDecimal valor; // Agora representa o saldo inicial
 
-    private LocalDate dataEntrada;
+    private LocalDateTime dataEntrada;
 
     @Override
     public boolean isNew() {

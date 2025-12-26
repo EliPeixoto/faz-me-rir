@@ -1,15 +1,18 @@
 package br.com.fazmerir.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-public record SaldoDto(
-        BigDecimal valor,
+@Getter
+@Setter
+public class SaldoDto {
+
+        BigDecimal valor;
 
         @JsonFormat(pattern = "yyyy-MM-dd")
-        LocalDate dataEntrada
-
-) {
+        LocalDateTime dataEntrada;
 }

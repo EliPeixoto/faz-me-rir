@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,17 +24,46 @@ public class SaldoService {
     private final DespesaService despesaService;
     private final ReceitaService receitaService;
 
-    public SaldoResponseDto saldoAtual() {
+    public SaldoDto saldoAtual() {
         BigDecimal totalReceita = receitaService.somarReceitasStatusRecebido();
         BigDecimal totalDespesa = despesaService.somarDespesaPorStatusPago();
         BigDecimal saldo = totalReceita.subtract(totalDespesa);
-        LocalDate horaAtual = LocalDate.now();
+        LocalDateTime agora = LocalDateTime.now();
 
-        SaldoResponseDto saldoTotal = new SaldoResponseDto();
-        saldoTotal.setValorTotal(saldo);
-        saldoTotal.setAtualizadoEm(horaAtual);
+        LocalDate hoje = agora.toLocalDate();
+        LocalDateTime inicioDia = hoje.atStartOfDay();
+        LocalDateTime fimDia = hoje.plusDays(1).atStartOfDay().minusNanos(1);
 
-        return saldoTotal;
+        Optional<Saldo> ultimoDoDiaOpt =
+                repository.findTop1ByDataEntradaBetweenOrderByDataEntradaDesc(inicioDia, fimDia);
+
+        Saldo entidadeParaSalvar;
+        if (ultimoDoDiaOpt.isPresent()) {
+            Saldo ultimoDoDia = ultimoDoDiaOpt.get();
+
+            boolean mesmoValor = ultimoDoDia.getValor().compareTo(saldo) == 0;
+
+            if (mesmoValor) {
+                ultimoDoDia.setDataEntrada(agora);
+                entidadeParaSalvar = ultimoDoDia;
+            } else {
+                entidadeParaSalvar = new Saldo();
+                entidadeParaSalvar.setValor(saldo);
+                entidadeParaSalvar.setDataEntrada(agora);
+            }
+        } else {
+            entidadeParaSalvar = new Saldo();
+            entidadeParaSalvar.setValor(saldo);
+            entidadeParaSalvar.setDataEntrada(agora);
+        }
+
+        Saldo salvo = repository.save(entidadeParaSalvar);
+
+        SaldoDto dto = new SaldoDto();
+        dto.setValor(salvo.getValor());
+        dto.setDataEntrada(salvo.getDataEntrada());
+
+        return dto;
     }
 
 
