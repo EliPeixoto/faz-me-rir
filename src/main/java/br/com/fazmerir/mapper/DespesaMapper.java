@@ -19,7 +19,7 @@ public interface DespesaMapper {
     Despesa toEntity(DespesaDto dto);
 
     @Mapping(source = "id", target = "id")
-    @Mapping(target = "categoria", source = "categoria.descricao")
+    @Mapping(target = "categoria", source = "categoria")
     DespesaDto toDto(Despesa entity);
 
 

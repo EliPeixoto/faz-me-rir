@@ -20,5 +20,5 @@ public class DespesaDto {
     private StatusDespesaEnum statusDespesa;
     private LocalDate dataVencimento;
     private String numeroWhatsApp;
-    private String categoria;
+    private Categoria categoria;
 }

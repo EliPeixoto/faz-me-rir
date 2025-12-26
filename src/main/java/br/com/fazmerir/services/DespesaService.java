@@ -10,6 +10,7 @@ import br.com.fazmerir.mapper.DespesaMapper;
 import br.com.fazmerir.repository.CategoriaRepository;
 import br.com.fazmerir.repository.DespesaRepository;
 import br.com.fazmerir.response.DespesaResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class DespesaService {
     private final DespesaMapper mapper;
     private final CategoriaRepository categoriaRepository;
 
-
+    @Transactional
     public Despesa cadastrarDespesa(DespesaDto dto) {
         LocalDate dataVencimento = dto.getDataVencimento();
         StatusDespesaEnum status = dto.getStatusDespesa();
@@ -38,7 +39,7 @@ public class DespesaService {
                 dto.setStatusDespesa(status);
             }
         }
-        String descricaoCategoria = dto.getCategoria().toString();
+        String descricaoCategoria = dto.getCategoria().getDescricao();
 
         if (descricaoCategoria == null || descricaoCategoria.isBlank()) {
             throw new IllegalArgumentException("Categoria é obrigatoria");

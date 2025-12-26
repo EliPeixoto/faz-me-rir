@@ -32,9 +32,10 @@ public class Despesa implements AuditableEntity {
     @Enumerated(EnumType.STRING)
     private StatusDespesaEnum statusDespesa;
     private LocalDate dataVencimento;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "categoria_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "CATEGORIA_ID")
     private Categoria categoria;
+
 
     @Override
     public boolean isNew() {
