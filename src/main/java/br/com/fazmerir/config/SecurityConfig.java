@@ -27,7 +27,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/public/**",
-                                "/h2-console/**"
+                                "/h2-console/**",
+                                "/auth/**",
+                                "/api/**"
                         ).permitAll()
                         // Protege o resto
                         .anyRequest().authenticated()

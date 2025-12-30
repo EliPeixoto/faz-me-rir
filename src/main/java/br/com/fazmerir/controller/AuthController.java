@@ -17,4 +17,8 @@ public class AuthController {
             return ResponseEntity.status(401).body("Credenciais inválidas");
         }
     }
+
+    @GetMapping("/ping")
+    public String ping() { return "pong"; }
+
 }
