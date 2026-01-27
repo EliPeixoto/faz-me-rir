@@ -27,7 +27,7 @@ public class ReceitaService {
     }
 
 
-    public ReceitaDto buscaReceitaPorId(Long id){
+    public ReceitaDto buscaReceitaPorId(Long id) {
 
         Receita receita = receitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Receita não encontrada com id: " + id));
@@ -59,7 +59,7 @@ public class ReceitaService {
     }
 
 
-    public ReceitaDto alteraStatusReceita(Long id){
+    public ReceitaDto alteraStatusReceita(Long id) {
         Receita receitaExistente = receitaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
 
@@ -70,22 +70,23 @@ public class ReceitaService {
         receitaExistente.setStatusReceita(novoStatus);
 
         receitaRepository.save(receitaExistente);
-        return  mapper.toDto(receitaExistente);
+        return mapper.toDto(receitaExistente);
 
     }
 
     public BigDecimal somarReceitasStatusRecebido() {
 
-       List<Receita> receitaExistente = receitaRepository.findAll();
+        List<Receita> receitaExistente = receitaRepository.findAll();
 
-       return receitaExistente.stream()
-               .filter(r -> StatusReceitaEnum.RECEBIDO.equals(r.getStatusReceita()))
-               .map(Receita::getValorReceita)
-               .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return receitaExistente.stream()
+                .filter(r -> StatusReceitaEnum.RECEBIDO.equals(r.getStatusReceita()))
+                .map(Receita::getValorReceita)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
 
-    public void deletarReceita(Long id){
+    public void deletarReceita(Long id) {
         receitaRepository.deleteById(id);
     }
+
 }

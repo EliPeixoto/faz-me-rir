@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/receitas")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequiredArgsConstructor
 public class ReceitaController {
 
